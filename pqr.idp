@@ -1,0 +1,19 @@
+// Dylan Van Assche - MaICT
+vocabulary V {
+    P
+    Q
+    R
+}
+
+structure S: V {
+ // Niks = zoek alle mogelijkheden voor P, Q en R
+}
+
+theory T: V {
+    (P => Q) <=> (P <= R).
+}
+
+procedure main() {
+    stdoptions.nbmodels = 0 // 3 => 3 models, 0 => all models
+    printmodels(modelexpand(T, S))
+}

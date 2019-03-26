@@ -1,0 +1,30 @@
+/*  
+ * dagen.idp
+ * Dylan Van Assche - MaICT
+ */
+
+vocabulary V {
+    type Dag constructed from{ Maandag, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag, Zondag }
+    //Kerstmis: Dag
+    //Nieuwjaar: Dag
+    Weekend(Dag)
+    Pasen: Dag
+} 
+
+structure S : V {
+    //Dag  { Maandag; Dinsdag; Woensdag; Donderdag; Vrijdag; Zaterdag; Zondag }
+    //Kerstmis = Maandag
+    Weekend = { Zaterdag; Zondag }
+}
+
+theory T : V {
+	//Nieuwjaar = Kerstmis. // zelfde dag
+    Weekend(Pasen).
+    Pasen ~= Zaterdag.
+}
+
+procedure main() {
+    stdoptions.nbmodels = 0			
+    models = modelexpand(T,S)
+    printmodels(models)
+}

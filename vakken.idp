@@ -1,0 +1,34 @@
+/*  
+ * vakken.idp
+ * Dylan Van Assche - MaICT
+ */
+
+vocabulary V {
+    type Docent constructed from { DVT, JVE, TGO }
+    type Vak constructed from { ApplicatieArch, ArtificieleInt, 
+									EmbeddedDinges, ProductCert }
+    Geeft(Docent, Vak)
+    //BuisVak: Vak
+    Gemakkelijk(Vak)
+} 
+
+structure S : V {
+	Geeft = { JVE, ApplicatieArch; JVE, ArtificieleInt; TGO, EmbeddedDinges; DVT, ProductCert; }
+    //Geeft = { JVE, ApplicatieArch; JVE, ArtificieleInt; TGO, EmbeddedDinges; DVT, ArtificieleInt;} // Unsatisfiable Elk vak minstens 1 docent
+    //Geeft = { JVE, ApplicatieArch; JVE, ArtificieleInt; TGO, EmbeddedDinges; JVE, ProductCert;} // Unsatisfiable Elke docent minstens 1 vak
+}
+
+theory T : V {
+	//Geeft(JVE, BuisVak).
+    //?vak: Geeft(JVE, vak) => Gemakkelijk(vak). // Er bestaat een vak van JVE dat gemakkelijk is (oef 15)
+    !vak: Geeft(JVE, vak) => Gemakkelijk(vak). // Voor alle vakken die JVE geeft, gemakkelijk (oef 16)
+    //!vak: Geeft(DVT, vak) => ~Gemakkelijk(vak). // DVT is niet gemakkelijk (oef 17)
+    ?vak: Geeft(DVT, vak) & ~Gemakkelijk(vak). // DVT (extra 1)
+    !doc: ?vak: Geeft(doc, vak).
+    !vak: ?doc: Geeft(doc, vak).
+}
+
+procedure main() {
+    stdoptions.nbmodels = 0		
+    printmodels(modelexpand(T,S))
+}

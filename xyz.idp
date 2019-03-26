@@ -1,0 +1,34 @@
+// Dylan Van Assche - MaICT
+vocabulary V {
+    X
+    Y
+    Z
+}
+
+structure S1: V {
+    X = true
+    Y = true
+    Z = false
+}
+
+structure S2: V {
+    X = false
+    Y = true
+    Z = false
+}
+
+structure S3: V {
+    X = true
+    Y = true
+    Z = true
+}
+
+theory T: V {
+    (X & Y & ~Z) | (X & Z & ~Y) | (Y & Z & ~X).
+}
+
+procedure main() {
+    print(sat(T, S1))
+    print(sat(T, S2))
+    print(sat(T, S3))
+}

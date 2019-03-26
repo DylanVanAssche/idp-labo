@@ -1,0 +1,20 @@
+// Dylan Van Assche - MaICT
+vocabulary V {
+    A
+    B
+    C
+}
+
+structure S: V {
+    A = true // origineel: true
+    B = true // origineel: false
+    C = true // origineel: false
+}
+
+theory T: V {
+    A & (B | ~C).
+}
+
+procedure main() {
+    print(sat(T, S))
+}
